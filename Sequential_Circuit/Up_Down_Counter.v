@@ -5,17 +5,14 @@ output reg [3:0] count;
 
 always @(posedge clk or negedge reset)
 begin
-	if(!reset) 
-	begin
+	if(!reset) begin
 		count <= 4'd0;
 	end
 	else begin
-		if(updown == 0)
-		begin
+		if(updown == 0) begin
 			count <= count - 4'd1;
 		end
-		else
-		begin
+		else begin
 			count <= count + 4'd1;
 		end
 	end
