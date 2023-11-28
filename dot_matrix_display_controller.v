@@ -1,4 +1,8 @@
-module main(input wire clk, input wire reset, output reg [7:0] dot_row, output reg [7:0] dot_column);
+module main(clk, reset, dot_row, dot_column);
+input clk;
+input reset;
+output [7:0] dot_row;
+output [7:0] dot_column;
 wire clk_div;
 
     frequency_divider fd(
@@ -10,6 +14,8 @@ wire clk_div;
     controller con(
         .clk(clk_div),
         .reset(reset),
+		  .dot_row(dot_row),
+		  .dot_column(dot_column),
     );
 endmodule
 
@@ -17,7 +23,10 @@ endmodule
 
 
 // define Frequency Divider
-module frequency_divider(input wire clk, input wire reset, output reg clk_div);
+module frequency_divider(clk, reset, clk_div);
+input clk; 
+input reset; 
+output reg clk_div;
 reg [31:0] TimeCounter;
 
 always @(posedge clk) begin
@@ -42,14 +51,18 @@ endmodule
 
 
 // define controller 
-module controller(input wire clk, input wire reset, output reg [7:0] dot_row, output reg [7:0] dot_column);
+module controller(clk,reset,dot_row,dot_column);
+input clk;
+input reset;
+output reg [7:0] dot_row;
+output reg [7:0] dot_column;
 reg [2:0]row_counter;
 
 always @(posedge clk or negedge reset) begin 
     if(!reset) begin
         row_counter <= 3'b0;
         dot_row <= 8'b0;
-        dot_column <= 8'b1;
+        dot_column <= 8'b11111111;
     end
     else begin
         row_counter <= row_counter + 3'b001;
