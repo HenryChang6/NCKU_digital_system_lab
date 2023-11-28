@@ -1,13 +1,5 @@
-`define  S0 = 3'b000;
-`define  S1 = 3'b001;
-`define  S2 = 3'b010;
-`define  S3 = 3'b011;
-`define  S4 = 3'b100;
-`define  S5 = 3'b101;
-`define TimeExpire  32'd25000000;
-
 // define top module
-module main(input clk, input reset, input in, output reg [6:0]out);
+module main(input clk, input reset, input in, output [6:0]out);
 
 wire [2:0] mm_out;
 wire clk_div;
@@ -15,7 +7,7 @@ wire clk_div;
 frequency_divider fd(
     .clk(clk),
     .reset(reset),
-    .out(clk_div),
+    .clk_div(clk_div),
 );
 
 moore_machine mm(
@@ -36,6 +28,7 @@ endmodule
 // define Frequency Divider
 module frequency_divider(input wire clk, input wire reset, output reg clk_div);
 reg [31:0] TimeCounter;
+parameter TimeExpire = 32'd25000000;
 
 always @(posedge clk) begin
     if(!reset) begin
@@ -59,7 +52,12 @@ endmodule
 
 // define moore_machine
 module moore_machine(input wire clk_div, input wire in, input wire reset, output reg [2:0]out);
-
+parameter S0 = 3'b000;
+parameter S1 = 3'b001;
+parameter S2 = 3'b010;
+parameter S3 = 3'b011;
+parameter S4 = 3'b100;
+parameter S5 = 3'b101;
 always @(posedge clk_div or negedge reset) begin
     if(!reset) begin
         out <= S0;
@@ -83,7 +81,12 @@ endmodule
 
 // define Seven Display
 module seven_display(input wire [2:0] tmp, output reg[6:0] out);
-
+parameter S0 = 3'b000;
+parameter S1 = 3'b001;
+parameter S2 = 3'b010;
+parameter S3 = 3'b011;
+parameter S4 = 3'b100;
+parameter S5 = 3'b101;
 always @(*) begin
     case(tmp)
         S0: out = 7'b1000000;
@@ -96,4 +99,3 @@ always @(*) begin
 end
 
 endmodule
-
