@@ -55,17 +55,17 @@ always @(posedge clk_div1 or negedge reset) begin
             case(state)
                 S_green: 
                     begin 
-                        state = S_yellow;
+                        state <= S_yellow;
                         TimeCounter <= 4'd3;
                     end 
                 S_yellow: 
                     begin
-                        state = S_red;
+                        state <= S_red;
                         TimeCounter <= 4'd15;
                     end
                 S_red: 
                     begin
-                    state = S_green;
+                    state <= S_green;
                     TimeCounter <= 4'd10;
                     end
             endcase
