@@ -48,10 +48,7 @@ end
 always @(posedge clk_div1 or negedge reset) begin
     if(!reset) begin
         state <= S_green;
-        TimeCounter <= 4'd10;
-        row_counter <= 3'b0;
-        dot_row <= 8'b00000000;
-        dot_column <= 8'b11111111;
+		  TimeCounter <= 4'd10;
     end
     else begin
         if(TimeCounter == 4'd0) begin
@@ -81,152 +78,157 @@ end
 
 
 //define dot_matrix display
-always @(posedge clk_div2) begin
+always @(posedge clk_div2 or negedge reset) begin
 
-    if(state == S_green) begin 
-        case(row_counter)
-            3'd0:
-                begin
-                    dot_row <= 8'b01111111; 
-                    dot_column <= 8'b00110000;
-                end
-            3'd1:
-                begin
-                    dot_row <= 8'b10111111; 
-                    dot_column <= 8'b00110000;
-                end
-            3'd2:
-                begin
-                    dot_row <= 8'b11011111; 
-                    dot_column <= 8'b10011000;
-                end
-            3'd3:
-                begin
-                    dot_row <= 8'b11101111; 
-                    dot_column <= 8'b01111110;
-                end
-            3'd4:
-                begin
-                    dot_row <= 8'b11110111; 
-                    dot_column <= 8'b00011001;
-                end
-            3'd5:
-                begin
-                    dot_row <= 8'b11111011; 
-                    dot_column <= 8'b00011000;
-                end
-            3'd6:
-                begin
-                    dot_row <= 8'b11111101; 
-                    dot_column <= 8'b00010100;
-                end
-            //row_counter == 3'd7
-            default:
-                begin
-                    dot_row <= 8'b11111110; 
-                    dot_column <= 8'b00010010;
-                end
-        endcase
-    end
-    else if(state == S_yellow) begin
-        case(row_counter)
-            3'd0:
-                begin
-                    dot_row <= 8'b01111111; 
-                    dot_column <= 8'b00000000;
-                end
-            3'd1:
-                begin
-                    dot_row <= 8'b10111111; 
-                    dot_column <= 8'b00100100;
-                end
-            3'd2:
-                begin
-                    dot_row <= 8'b11011111; 
-                    dot_column <= 8'b00111100;
-                end
-            3'd3:
-                begin
-                    dot_row <= 8'b11101111; 
-                    dot_column <= 8'b10111101;
-                end
-            3'd4:
-                begin
-                    dot_row <= 8'b11110111; 
-                    dot_column <= 8'b11111111;
-                end
-            3'd5:
-                begin
-                    dot_row <= 8'b11111011; 
-                    dot_column <= 8'b00111100;
-                end
-            3'd6:
-                begin
-                    dot_row <= 8'b11111101; 
-                    dot_column <= 8'b00111100;
-                end
-            //row_counter == 3'd7
-            default:
-                begin
-                    dot_row <= 8'b11111110; 
-                    dot_column <= 8'b00000000;
-                end
-        endcase
-    end
-    // state == S_Red
-    else begin
-        case(row_counter)
-            3'd0:
-                begin
-                    dot_row <= 8'b01111111; 
-                    dot_column <= 8'b00011000;
-                end
-            3'd1:
-                begin
-                    dot_row <= 8'b10111111; 
-                    dot_column <= 8'b00011000;
-                end
-            3'd2:
-                begin
-                    dot_row <= 8'b11011111; 
-                    dot_column <= 8'b00111100;
-                end
-            3'd3:
-                begin
-                    dot_row <= 8'b11101111; 
-                    dot_column <= 8'b00111100;
-                end
-            3'd4:
-                begin
-                    dot_row <= 8'b11110111; 
-                    dot_column <= 8'b01011010;
-                end
-            3'd5:
-                begin
-                    dot_row <= 8'b11111011; 
-                    dot_column <= 8'b00011000;
-                end
-            3'd6:
-                begin
-                    dot_row <= 8'b11111101; 
-                    dot_column <= 8'b00011000;
-                end
-            //row_counter == 3'd7
-            default:
-                begin
-                    dot_row <= 8'b11111110; 
-                    dot_column <= 8'b00100100;
-                end
-        endcase
-    end
+	 if(!reset) begin
+		  dot_row <= 8'b00000000;
+        dot_column <= 8'b11111111;
+		  row_counter <= 3'b0;
+	 end
+	 
+	 else begin
 
-    //問一下老大 why上次沒有寫這個會對
-    if(row_counter == 3'd7) begin
-        row_counter <= 3'd0;
-    end
-    else begin
+		if(state == S_green) begin 
+		  case(row_counter)
+				3'd0:
+					 begin
+						  dot_row <= 8'b01111111; 
+						  dot_column <= 8'b00110000;
+					 end
+				3'd1:
+					 begin
+						  dot_row <= 8'b10111111; 
+						  dot_column <= 8'b00110000;
+					 end
+				3'd2:
+					 begin
+						  dot_row <= 8'b11011111; 
+						  dot_column <= 8'b10011000;
+					 end
+				3'd3:
+					 begin
+						  dot_row <= 8'b11101111; 
+						  dot_column <= 8'b01111110;
+					 end
+				3'd4:
+					 begin
+						  dot_row <= 8'b11110111; 
+						  dot_column <= 8'b00011001;
+					 end
+				3'd5:
+					 begin
+						  dot_row <= 8'b11111011; 
+						  dot_column <= 8'b00011000;
+					 end
+				3'd6:
+					 begin
+						  dot_row <= 8'b11111101; 
+						  dot_column <= 8'b00010100;
+					 end
+				//row_counter == 3'd7
+				default:
+					 begin
+						  dot_row <= 8'b11111110; 
+						  dot_column <= 8'b00010010;
+					 end
+		  endcase
+		end
+		else if(state == S_yellow) begin
+		  case(row_counter)
+				3'd0:
+					 begin
+						  dot_row <= 8'b01111111; 
+						  dot_column <= 8'b00000000;
+					 end
+				3'd1:
+					 begin
+						  dot_row <= 8'b10111111; 
+						  dot_column <= 8'b00100100;
+					 end
+				3'd2:
+					 begin
+						  dot_row <= 8'b11011111; 
+						  dot_column <= 8'b00111100;
+					 end
+				3'd3:
+					 begin
+						  dot_row <= 8'b11101111; 
+						  dot_column <= 8'b10111101;
+					 end
+				3'd4:
+					 begin
+						  dot_row <= 8'b11110111; 
+						  dot_column <= 8'b11111111;
+					 end
+				3'd5:
+					 begin
+						  dot_row <= 8'b11111011; 
+						  dot_column <= 8'b00111100;
+					 end
+				3'd6:
+					 begin
+						  dot_row <= 8'b11111101; 
+						  dot_column <= 8'b00111100;
+					 end
+				//row_counter == 3'd7
+				default:
+					 begin
+						  dot_row <= 8'b11111110; 
+						  dot_column <= 8'b00000000;
+					 end
+		  endcase
+		end
+		// state == S_Red
+		else begin
+		  case(row_counter)
+				3'd0:
+					 begin
+						  dot_row <= 8'b01111111; 
+						  dot_column <= 8'b00011000;
+					 end
+				3'd1:
+					 begin
+						  dot_row <= 8'b10111111; 
+						  dot_column <= 8'b00011000;
+					 end
+				3'd2:
+					 begin
+						  dot_row <= 8'b11011111; 
+						  dot_column <= 8'b00111100;
+					 end
+				3'd3:
+					 begin
+						  dot_row <= 8'b11101111; 
+						  dot_column <= 8'b00111100;
+					 end
+				3'd4:
+					 begin
+						  dot_row <= 8'b11110111; 
+						  dot_column <= 8'b01011010;
+					 end
+				3'd5:
+					 begin
+						  dot_row <= 8'b11111011; 
+						  dot_column <= 8'b00011000;
+					 end
+				3'd6:
+					 begin
+						  dot_row <= 8'b11111101; 
+						  dot_column <= 8'b00011000;
+					 end
+				//row_counter == 3'd7
+				default:
+					 begin
+						  dot_row <= 8'b11111110; 
+						  dot_column <= 8'b00100100;
+					 end
+		  endcase
+		end
+ 
+
         row_counter <= row_counter + 3'd1;
-    end
+	end
+
 end
 
 
@@ -254,4 +256,3 @@ always @(TimeCounter) begin
 end
 
 endmodule
-
