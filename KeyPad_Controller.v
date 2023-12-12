@@ -1,12 +1,16 @@
-module KeyPad_Controller(clock, reset, dot_row, dot_column,keypadCol);
-input clock, reset, [3:0]keypadCol; 
-output [7:0]dot_row, [7:0]dot_column, [3:0]keypadRow;
-reg [31:0]keypadDelay, [31:0]DotFD_Counter;
+module KeyPad_Controller(clock, reset, dot_row, dot_column,keypadCol, keypadRow);
+input clock, reset;
+input [3:0]keypadCol; 
+output reg [7:0]dot_row;
+output reg [7:0]dot_column;
+output reg [3:0]keypadRow;
+reg [31:0]keypadDelay;
+reg [31:0]DotFD_Counter;
 reg [3:0] keypadBuf;
 reg DotFD_Clock;
 reg [2:0]row_counter;
 
-always @(posedge clk) begin
+always @(posedge clock) begin
     if(!reset) begin
         DotFD_Counter <= 32'd0;
         DotFD_Clock <= 1'd0;
@@ -25,10 +29,10 @@ end
 always @(posedge clock) begin
     if(!reset) begin
         keypadBuf <= 4'h0;
-        keypadRow <= 4'd1110;
+        keypadRow <= 4'b1110;
     end
     else begin 
-        if(keypadDelay == d'250000) begin
+        if(keypadDelay == 32'd250000) begin
             keypadDelay <= 32'd0;
             //判斷哪個當前的row哪個column被按下了
             case({keypadRow,keypadCol}) 
@@ -89,179 +93,179 @@ always @(posedge DotFD_Clock or negedge reset) begin
         case(keypadBuf)
             4'h7:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000011;
-                    3'd7: dot_coulumn <= 8'b00000011;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000011;
+                    3'd7: dot_column <= 8'b00000011;
                 endcase
             4'h4:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00001100;
-                    3'd7: dot_coulumn <= 8'b00001100;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00001100;
+                    3'd7: dot_column <= 8'b00001100;
                 endcase
             4'h1:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00110000;
-                    3'd7: dot_coulumn <= 8'b00110000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00110000;
+                    3'd7: dot_column <= 8'b00110000;
                 endcase
             4'h0:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b11000000;
-                    3'd7: dot_coulumn <= 8'b11000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b11000000;
+                    3'd7: dot_column <= 8'b11000000;
                 endcase
             4'h8:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000011;
-                    3'd5: dot_coulumn <= 8'b00000011;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000011;
+                    3'd5: dot_column <= 8'b00000011;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'h5:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00001100;
-                    3'd5: dot_coulumn <= 8'b00001100;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00001100;
+                    3'd5: dot_column <= 8'b00001100;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'h2:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00110000;
-                    3'd5: dot_coulumn <= 8'b00110000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00110000;
+                    3'd5: dot_column <= 8'b00110000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'ha:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b11000000;
-                    3'd5: dot_coulumn <= 8'b11000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b11000000;
+                    3'd5: dot_column <= 8'b11000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'h9:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00000011;
-                    3'd3: dot_coulumn <= 8'b00000011;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00000011;
+                    3'd3: dot_column <= 8'b00000011;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'h6:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00001100;
-                    3'd3: dot_coulumn <= 8'b00001100;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00001100;
+                    3'd3: dot_column <= 8'b00001100;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'h3:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b00110000;
-                    3'd3: dot_coulumn <= 8'b00110000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b00110000;
+                    3'd3: dot_column <= 8'b00110000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'hb:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000000;
-                    3'd1: dot_coulumn <= 8'b00000000;
-                    3'd2: dot_coulumn <= 8'b11000000;
-                    3'd3: dot_coulumn <= 8'b11000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000000;
+                    3'd1: dot_column <= 8'b00000000;
+                    3'd2: dot_column <= 8'b11000000;
+                    3'd3: dot_column <= 8'b11000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'hc:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00000011;
-                    3'd1: dot_coulumn <= 8'b00000011;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00000011;
+                    3'd1: dot_column <= 8'b00000011;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'hd:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00001100;
-                    3'd1: dot_coulumn <= 8'b00001100;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00001100;
+                    3'd1: dot_column <= 8'b00001100;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'he:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b00110000;
-                    3'd1: dot_coulumn <= 8'b00110000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b00110000;
+                    3'd1: dot_column <= 8'b00110000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
             4'hf:
                 case(row_counter)
-                    3'd0: dot_coulumn <= 8'b11000000;
-                    3'd1: dot_coulumn <= 8'b11000000;
-                    3'd2: dot_coulumn <= 8'b00000000;
-                    3'd3: dot_coulumn <= 8'b00000000;
-                    3'd4: dot_coulumn <= 8'b00000000;
-                    3'd5: dot_coulumn <= 8'b00000000;
-                    3'd6: dot_coulumn <= 8'b00000000;
-                    3'd7: dot_coulumn <= 8'b00000000;
+                    3'd0: dot_column <= 8'b11000000;
+                    3'd1: dot_column <= 8'b11000000;
+                    3'd2: dot_column <= 8'b00000000;
+                    3'd3: dot_column <= 8'b00000000;
+                    3'd4: dot_column <= 8'b00000000;
+                    3'd5: dot_column <= 8'b00000000;
+                    3'd6: dot_column <= 8'b00000000;
+                    3'd7: dot_column <= 8'b00000000;
                 endcase
         endcase
     end
