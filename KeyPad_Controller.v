@@ -88,7 +88,7 @@ always @(posedge DotFD_Clock or negedge reset) begin
             3'd4: dot_row <= 8'b11110111;
             3'd5: dot_row <= 8'b11111011;
             3'd6: dot_row <= 8'b11111101;
-            3'd7: dot_row <= 8'b10111110;
+            3'd7: dot_row <= 8'b11111110;
         endcase
         case(keypadBuf)
             4'h7:
