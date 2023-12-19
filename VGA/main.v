@@ -2,6 +2,9 @@
 module main (
 input         sys_rst_n,
 input         sys_clk,
+input         red,
+input         green,
+input         black,
 output        hsync,  //控制換行
 output        vsync, //控制換幀
 output [15:0] rgb,
@@ -47,6 +50,9 @@ vga_pic vga_pic_inst(
     .sys_rst_n  (rst_n),    //輸入复位訊號, Low_Actived, 1bit
     .pix_x      (pix_x),    //輸入VGA有效顯示區域像素點X軸座標, 10bit
     .pix_y      (pix_y),    //輸入VGA有效顯示區域像素點Y軸座標, 10bit
+    .red        (red),
+    .green      (green),
+    .black      (black),
     // Output//
     .pix_data   (pix_data)  //輸出像素点色彩信息,16bit
 );
