@@ -2,7 +2,6 @@ module fd_25MHz(
     input      clock,
     input      reset,
     output reg fd_clock,
-    output     locked    
 );
 
 reg count;

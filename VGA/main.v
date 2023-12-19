@@ -9,7 +9,6 @@ output [15:0] rgb,
 
  wire            vga_clk ;   //VGA工作時鐘, 频率25MHz
  wire            locked  ;   //PLL locked訊號
- wire            rst_n   ;   //VGA module reset 訊號
  wire    [9:0]   pix_x   ;   //VGA有效顯示區域X軸座標
  wire    [9:0]   pix_y   ;   //VGA有效顯示區域Y軸座標
  wire    [15:0]  pix_data;   //VGA像素點色彩信息
@@ -17,17 +16,16 @@ output [15:0] rgb,
 // Hsync行同步訊號 共800個週期  有效圖像range 145 ~ 785 
 // Vsync場同步訊號（控制換幀） 共525個「Hsync週期」
 
-assign rst_n = (sys_rst_n & locked); //Why?
 
 //**********// //**** Instantiation ***// //************//
 
+//這個怎麼做rrr
 clk_gen clk_gen_inst(
     // Input //
-    .areset(~sys_rst_n), //輸入復位訊號, High-Activated, 1bit
-    .inclk0(sys_clk),    //輸入50MHz時鐘, 1 bit
+    .reset(sys_rst_n), //輸入復位訊號, High-Activated, 1bit
+    .clock(sys_clk),    //輸入50MHz時鐘, 1 bit
     // Output//     
-    .c0(vga_clk),        //輸出VGA工作時鐘, 頻率25MHz   
-    .locked(locked),     //輸出pll locked訊號, 1 bit
+    .fd_clock(vga_clk),        //輸出VGA工作時鐘, 頻率25MHz   
 );
 
 vga_ctrl vga_ctrl_inst(
